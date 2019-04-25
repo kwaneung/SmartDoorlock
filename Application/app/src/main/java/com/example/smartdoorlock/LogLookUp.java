@@ -1,39 +1,42 @@
 package com.example.smartdoorlock;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_10;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Calendar;
 
 public class LogLookUp extends AppCompatActivity {
-
-    WebSocketClient mWebSocketClient;
 
     TextView start;
     TextView end;
     Button Search;
     int mYear, mMonth, mDay;
+    Calendar cal;
+    LinearLayout loglayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_look_up);
+
+        cal = Calendar.getInstance();
+        loglayout = (LinearLayout)findViewById(R.id.Loglayout);
 
         final DatePickerDialog.OnDateSetListener mDateSetListener1 = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -58,7 +61,7 @@ public class LogLookUp extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(LogLookUp.this,mDateSetListener1, mYear, mMonth, mDay).show();
+                new DatePickerDialog(LogLookUp.this,mDateSetListener1, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -66,7 +69,7 @@ public class LogLookUp extends AppCompatActivity {
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(LogLookUp.this,mDateSetListener2, mYear, mMonth, mDay).show();
+                new DatePickerDialog(LogLookUp.this,mDateSetListener2, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -84,12 +87,39 @@ public class LogLookUp extends AppCompatActivity {
                     WebSocketClient webSocketClient = new WebSocketClient(uri,new Draft_17()) {
                         @Override
                         public void onOpen(ServerHandshake handshakedata) {
-                            this.send(start.getText().toString() + '-' + end.getText().toString());
+                            this.send("5");
+                            this.send(start.getText().toString());
+                            this.send(end.getText().toString());
+
+                            runOnUiThread(new Runnable() {
+                                @Override public void run() {
+                                    loglayout.removeAllViews();
+                                }
+                            });
+
 
                         }
 
                         @Override
-                        public void onMessage(String message) {
+                        public void onMessage(final String message) {
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                            if (message.equals("End")) {
+                                this.close();
+                            }
+                            else{
+                                runOnUiThread(new Runnable() {
+                                    @Override public void run() {
+                                        TextView t = new TextView(LogLookUp.this);
+                                        t.setText(message);
+                                        t.setTextSize(25);
+                                        t.setPadding(0,10,0,10);
+                                        t.setLayoutParams(new LinearLayout.LayoutParams(
+                                                LinearLayout.LayoutParams.FILL_PARENT,
+                                                LinearLayout.LayoutParams.WRAP_CONTENT));
+                                        loglayout.addView(t);
+                                    }
+                                });
+                            }
 
 
                         }

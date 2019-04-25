@@ -18,6 +18,7 @@
         android:ems="10"
         android:inputType="date"
         android:gravity="center"
+        android:focusable="false"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,6 +46,7 @@
         android:ems="10"
         android:inputType="date"
         android:gravity="center"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,13 +61,13 @@
         android:text="조 회"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
+        app:layout_constraintStart_toStartOf="@+id/ScrollView"
         app:layout_constraintTop_toBottomOf="@+id/End" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/ScrollView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="616dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -75,12 +77,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogSearch">
+        app:layout_constraintTop_toBottomOf="@+id/LogSearch"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
+            android:id="@+id/Loglayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"></LinearLayout>
     </ScrollView>
 
     <android.support.constraint.Guideline
