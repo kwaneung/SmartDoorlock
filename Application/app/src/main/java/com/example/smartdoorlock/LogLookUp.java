@@ -102,7 +102,6 @@ public class LogLookUp extends AppCompatActivity {
 
                         @Override
                         public void onMessage(final String message) {
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
                             if (message.equals("End")) {
                                 this.close();
                             }
