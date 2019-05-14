@@ -3,7 +3,7 @@
 #include <MFRC522.h>
 #include <ESP8266WiFi.h>
 #include <WebSocketClient.h>
-
+#include <ESP8266WebServer.h>
 
 #define SS_PIN 15
 #define RST_PIN 0
@@ -17,7 +17,7 @@
 MFRC522 rfid(SS_PIN, RST_PIN); // RFID 라이브러를 사용
 MFRC522::MIFARE_Key key;
 Servo myservo;
-
+ESP8266WebServer server(80);
 
 
 const char* ssid = "KPU_WiFi938";
@@ -38,6 +38,16 @@ WebSocketClient webSocketClient;
 
 // Use WiFiClient class to create TCP connections
 WiFiClient client;
+
+
+void handleON() {
+  server.send(200, "text/plane", "Turned ON !!");
+  //Serial.println("Doorlock Open !!");
+  myservo.write(180);
+  delay(1500);
+  myservo.write(0);
+}
+
 
 String recv_data()
 {
@@ -135,8 +145,8 @@ void setup() {
   //Serial.println("WiFi connected");
   //Serial.print("IP address: ");
   //Serial.println(WiFi.localIP());
-
-
+  server.on("/on", handleON);
+  server.begin();
   
 
   //Serial.println("도어락 시스템을 시작합니다.");
@@ -144,8 +154,8 @@ void setup() {
 }
 
 void loop() {
+  server.handleClient();
   digitalWrite(led, state);
-  
   if (!rfid.PICC_IsNewCardPresent()) //카드가 인식 되지 않았다면
     return;
 
@@ -164,7 +174,7 @@ void loop() {
     piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
     piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
     //Serial.println(F("Your tag is not of type MIFARE Classic."));
-    //return;
+    return;
   }
   //Serial.println("");
   //Serial.print("taging UID : ");
