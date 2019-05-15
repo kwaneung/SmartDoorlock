@@ -79,7 +79,7 @@ public class LogLookUp extends AppCompatActivity {
             public void onClick(View v) {
                 URI uri ;
                 try{
-                    uri = new URI("ws://3Nyang.gonetis.com:180");
+                    uri = new URI(singleton.getInstance().URI);
                 } catch (URISyntaxException e){
                     e.printStackTrace();
                     return;
