@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
     Button LogButton;
     Button PhotoButton;
     Button UserButton;
+    Button DoorOpen;
     TextView role;
 
     @Override
@@ -40,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserLookUp.class);
+                startActivity(intent);
+            }
+        });
+
+        DoorOpen = (Button)findViewById(R.id.DoorOpen);
+        DoorOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DoorOpen.class);
                 startActivity(intent);
             }
         });
