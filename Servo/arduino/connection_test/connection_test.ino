@@ -20,10 +20,10 @@ Servo myservo;
 ESP8266WebServer server(80);
 
 
-const char* ssid = "iPhone";
-const char* password = "1234567890";
+const char* ssid = "KPU_WiFi938";
+const char* password = "";
 char path[] = "/";
-char host[] = "172.20.10.3";
+char host[] = "3Nyang.gonetis.com";
 int port = 180;
 
 byte nuidPICC[4];
@@ -41,7 +41,7 @@ WiFiClient client;
 
 
 void handleON() {
-  server.send(200, "text/plane", "Turned ON !!");
+  server.send(200, "text/plane", "Door Open!!");
   Serial.println("Doorlock Open !!");
   myservo.write(180);
   delay(1500);
@@ -149,7 +149,7 @@ void setup() {
   server.begin();
   
 
-  //Serial.println("도어락 시스템을 시작합니다.");
+  Serial.println("도어락 시스템을 시작합니다.");
 
 }
 
@@ -236,9 +236,9 @@ void loop() {
   }
   else {
     Serial.println("Client disconnected.");
-    while (1) {
-      // Hang on disconnect.
-    }
+//    while (1) {
+//      // Hang on disconnect.
+//    }
   }
   client.stop();
   rfid.PICC_HaltA();//종료
