@@ -65,9 +65,9 @@ def echo_log():
 
 	cur.execute("SELECT YEAR, MONTH, DAY, TIME, role, name, u.id FROM log l, user u WHERE l.year = (?) and l.month = (?) and l.day = (?) and l.id == u.id", (year, month, day))
 	for i in cur:
-		result.append((i[0] + ' ' + i[1] + ' ' + i[2] + ' ' + i[3] + ' ' + i[4] + ' | name : ' + i[5] + ' | id : ' + i[6]))	
+		result.append((str(i[0]) + ' ' + str(i[1]) + ' ' + str(i[2]) + ' ' + i[3] + ' ' + i[4] + ' | name : ' + i[5] + ' | id : ' + i[6]))	
 	
-		return  "</br>".join(result)
+	return  "</br>".join(result)
 
 if __name__ == '__main__':
 		app.run(host='0.0.0.0', port=8888, debug=True, threaded=True)
