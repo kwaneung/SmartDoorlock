@@ -20,10 +20,10 @@ Servo myservo;
 ESP8266WebServer server(80);
 
 
-const char* ssid = "KPU_WiFi938";
+const char* ssid = "Sim";
 const char* password = "";
 char path[] = "/";
-char host[] = "3Nyang.gonetis.com";
+char host[] = "192.168.1.167";
 int port = 180;
 
 byte nuidPICC[4];
