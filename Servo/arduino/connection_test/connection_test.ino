@@ -23,7 +23,7 @@ ESP8266WebServer server(80);
 const char* ssid = "Sim";
 const char* password = "";
 char path[] = "/";
-char host[] = "192.168.1.167";
+char host[] = "192.168.1.180";
 int port = 180;
 
 byte nuidPICC[4];
@@ -43,7 +43,7 @@ WiFiClient client;
 void handleON() {
   server.send(200, "text/plane", "Door Open!!");
   Serial.println("Doorlock Open !!");
-  myservo.write(180);
+  myservo.write(90);
   delay(1500);
   myservo.write(0);
 }
@@ -98,8 +98,9 @@ int door_ctrl(String rcv_data)
   int flag = 0;
   if (rcv_data == "1")
       {
+        cnt = 0;
         Serial.println("Open");
-        myservo.write(180);
+        myservo.write(90);
         delay(1500);
         Serial.println("\Close");
         myservo.write(0);
@@ -224,6 +225,7 @@ void loop() {
     else { //사용자 등록 알고리즘.
       Serial.print("\n사용자를 등록합니다.");
       webSocketClient.sendData("2");
+      cnt = 0;
       send_uid();//uid 전송
       
       if (recv_data() == "2")
